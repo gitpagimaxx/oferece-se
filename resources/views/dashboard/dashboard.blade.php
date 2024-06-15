@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <h4>Quantidade de Ofertas</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h1>{{$qtdeOfertas}}</h1>
                 </div>
                 <div class="card-footer">
@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <h4>Quantidade de Clientes</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h1>{{$qtdeClientes}}</h1>
                 </div>
                 <div class="card-footer">
@@ -36,7 +36,7 @@
                 <div class="card-header">
                     <h4>Quantidade de Avaliações</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h1>{{$qtdeAvaliacao}}</h1>
                 </div>
                 <div class="card-footer">
@@ -57,7 +57,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Título</th>
                             <th scope="col">Qtde Items</th>
                             <th scope="col">Validade</th>
@@ -66,10 +65,9 @@
                     <tbody>
                     @foreach ($ofertas ?? '' as $item)
                         <tr>
-                            <th scope="row">{{ $item->id }}</th>
                             <td>{{ $item->Titulo }}</td>
-                            <td></td>
-                            <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
+                            <td style="width:100px;">{{ $item->qtdeItens }}</td>
+                            <td style="width:150px;">{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -92,7 +90,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">Publicado</th>
@@ -103,7 +100,6 @@
                     <tbody>
                     @foreach ($avaliacao ?? '' as $item)
                         <tr>
-                            <th scope="row" style="width:60px;">{{ $item->id }}</th>
                             <td>{{ $item->Nome }}</td>
                             <td style="width:130px;">{{ $item->Telefone }}</td>
                             <td style="width:100px;">{{ ($item->Publicar == 1) ? 'Sim' : 'Não' }}</td>

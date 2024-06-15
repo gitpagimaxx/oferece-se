@@ -1,0 +1,92 @@
+.bg-validade-ofertas {
+    background-color: cornflowerblue;;
+}
+
+/* body {
+    background: #DA4453;
+    background: -webkit-linear-gradient(to right, #89216B, #DA4453);
+    background: linear-gradient(to right, #89216B, #DA4453);
+
+} */
+
+.bg-container-white {
+    background-color: #fff;
+}
+
+.bg-container-content {
+    background: #DA4453;
+    background: -webkit-linear-gradient(to right, #89216B, #DA4453);
+    background: linear-gradient(to right, #89216B, #DA4453);
+}
+
+.bg-footer {
+    background: #0f0c29;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+}
+
+#footer a {
+    color: #fff;
+}
+
+
+.titulo {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.texto {
+    font-size: 1.2em;
+    font-weight: 100;
+}
+
+.color-orange {
+    color: #fc7f03;
+}
+
+.bg-hydrogen {
+    color: #fff;
+    background: #667db6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.btn-whatsapp {
+    background: #3de019;
+}
+
+.cardBgImagePrincipal {
+    position: relative;
+}    
+.cardBgImagePrincipal:before {
+    position: absolute;
+    background-position: right -10px bottom 10px;
+    font-family: 'FontAwesome';
+    font-size:4em;
+    opacity: 0.08;
+    color:#0073e6;
+    content: "\f10e";
+    left: 50px;
+    background-repeat: no-repeat;
+ }
+
+.bg-avaliacao {
+    position: relative;
+}
+
+.bg-avaliacao:before {
+    position: absolute;
+    background-position: right -10px bottom 10px;
+    background-size: 20px 20px;
+    font-family: 'FontAwesome';
+    font-size:4em;
+    opacity: 0.08;
+    color:#0073e6;
+    content: "\f10e";
+    background-repeat: no-repeat;
+ }
+
+ .color-white {
+    color: #fff;
+ }

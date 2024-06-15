@@ -35,6 +35,8 @@ Route::get('/avaliar/{username}', [App\Http\Controllers\SiteController::class, '
 Route::post('/registrar-avaliacao', [App\Http\Controllers\SiteController::class, 'registarAvaliacao'])->name('registrar.avaliacao');
 Route::get('/{username}/obrigado', [App\Http\Controllers\SiteController::class, 'avaliarObrigado']);
 
+Route::get('/dashboard/cota', [App\Http\Controllers\DashboardController::class, 'cota'])->name('cota');
+
 // DASHBOARD OFERTAS
 Route::get('/dashboard/ofertas', [App\Http\Controllers\OfertaController::class, 'index'])->name('ofertas');
 Route::get('/dashboard/ofertas/adicionar', [App\Http\Controllers\OfertaController::class, 'criarOfertaView']);

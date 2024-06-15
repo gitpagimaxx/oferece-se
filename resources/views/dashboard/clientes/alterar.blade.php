@@ -30,43 +30,43 @@
                 <div class="col-6">
                     <div class="form-group mb-3">
                         <label for="Nome">Nome</label>
-                        <input type="text" class="form-control" name="Nome" value="{{ old('Nome', $entity[0]->Nome) }}">
+                        <input type="text" class="form-control" name="Nome" value="{{ old('Nome', $entity->Nome) }}">
                     </div>
-                    <div class="form-group mb-3 col-3">
+                    <div class="form-group mb-3">
                         <label for="Telefone">Telefone</label>
-                        <input type="text" class="form-control" name="Telefone" value="{{ old('Telefone', $entity[0]->Telefone) }}">
+                        <input type="text" class="form-control col-4" name="Telefone" id="Telefone" value="{{ old('Telefone', $entity->Telefone) }}">
                     </div>
-                    <div class="form-group mb-3 col-3">
+                    <div class="form-group mb-3">
                         <label for="CEP">CEP</label>
-                        <input type="text" class="form-control" name="CEP" value="{{ old('CEP', $entity[0]->CEP ) }}">
+                        <input type="text" class="form-control col-3" name="CEP" id="CEP" value="{{ old('CEP', $entity->CEP ) }}">
                     </div>
                     <div class="form-group mb-3">
                         <label for="Endereco">Endereço</label>
-                        <input type="text" class="form-control" name="Endereco" value="{{ old('Endereco', $entity[0]->Endereco ) }}">
+                        <input type="text" class="form-control" name="Endereco" id="Endereco" value="{{ old('Endereco', $entity->Endereco ) }}">
                     </div>
-                    <div class="form-group mb-3 col-3">
+                    <div class="form-group mb-3">
                         <label for="Numero">Número</label>
-                        <input type="text" class="form-control" name="Numero" value="{{ old('Numero', $entity[0]->Numero ) }}">
+                        <input type="text" class="form-control col-3" name="Numero" value="{{ old('Numero', $entity->Numero ) }}">
                     </div>
                     <div class="form-group mb-3">
                         <label for="Complemento">Complemento</label>
-                        <input type="text" class="form-control" name="Complemento" value="{{ old('Complemento', $entity[0]->Complemento ) }}">
+                        <input type="text" class="form-control" name="Complemento" value="{{ old('Complemento', $entity->Complemento ) }}">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3">
                         <label for="Bairro">Bairro</label>
-                        <input type="text" class="form-control" name="Bairro" value="{{ old('Bairro', $entity[0]->Bairro ) }}">
+                        <input type="text" class="form-control" name="Bairro" id="Bairro" value="{{ old('Bairro', $entity->Bairro ) }}">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3">
                         <label for="Cidade">Cidade</label>
-                        <input type="text" class="form-control" name="Cidade" value="{{ old('Cidade', $entity[0]->Cidade ) }}">
+                        <input type="text" class="form-control col-6" name="Cidade" id="Cidade" value="{{ old('Cidade', $entity->Cidade ) }}">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3">
                         <label for="Estado">Estado</label>
-                        <input type="text" class="form-control" name="Estado" value="{{ old('Estado', $entity[0]->Estado ) }}">
+                        <input type="text" class="form-control col-2" name="Estado" id="Estado" value="{{ old('Estado', $entity->Estado ) }}">
                     </div>
                     <div class="form-group mb-3">
                         <label for="Referencia">Ponto de Referência</label>
-                        <input type="text" class="form-control" name="Referencia" value="{{ old('Referencia', $entity[0]->Referencia ) }}">
+                        <input type="text" class="form-control" name="Referencia" value="{{ old('Referencia', $entity->Referencia ) }}">
                     </div>
                 </div>
 

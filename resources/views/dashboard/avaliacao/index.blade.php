@@ -7,21 +7,38 @@
             <b>Avaliações</b>
         </div>
         <div class="card-body">
-            <div class="row mb-3">
-                @if(!empty(Session::get('message')))
-                    <div class="alert alert-success"> {{ Session::get('message') }}</div>
-                @endif
-                @if(!empty(Session::get('error')))
-                    <div class="alert alert-danger"> {{ Session::get('error') }}</div>
-                @endif
-        
+            <div class="row">
+                <div class="col">
+                    @if(!empty(Session::get('message')))
+                        <div class="alert alert-{{ Session::get('typeMessage') }} mb-3"> {{ Session::get('message') }}</div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <form action="{{ url(ENV('APP_URL')) }}/dashboard/avaliacao" method="get" class="row g-3">
+                        <div class="col-11">
+                            <input type="text" class="form-control" name="buscar" id="buscar" placeholder="Buscar..." value={{$palavra ?? ''}}>
+                        </div>
+                        <div class="col-1">
+                            <button type="submit" class="btn btn-outline-primary mb-3">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="col alert alert-info">
+                        Seu link para solicitar avaliações: <a href="{{ url(ENV('APP_URL')) }}/avaliar/{{ $perfil->NomeUsuario }}" target="_blank">{{ url(ENV('APP_URL')) }}/avaliar/{{ $perfil->NomeUsuario }}</a>
+                        <button onclick="copyFunction('{{getenv('APP_URL') . '/avaliar/' . Str::slug($perfil->NomeUsuario, '-') }}')" class="btn btn-sm btn-info text-white" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar Link"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">Publicado</th>
@@ -32,8 +49,7 @@
                     <tbody>
                     @foreach ($avaliacoes ?? '' as $item)
                         <tr>
-                            <th scope="row" style="width:60px;">{{ $item->id }}</th>
-                            <td>{{ $item->Nome }}</td>
+                            <td><a href="{{ url(ENV('APP_URL')) }}/dashboard/avaliacao/detalhar/{{ $item->id }}">{{ $item->Nome }}</a></td>
                             <td style="width:130px;">{{ $item->Telefone }}</td>
                             <td style="width:100px;">{{ ($item->Publicar == 1) ? 'Sim' : 'Não' }}</td>
                             <td style="width:150px;">{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
@@ -54,7 +70,7 @@
             </div>
         </div>
         <div class="card-footer">
-            Avaliações <b>{{$qtdeRegistros}}</b> encontrado(s)
+            <b>{{$qtdeRegistros}}</b> avaliações encontrado(s)
         </div>
     </div>
 </div>

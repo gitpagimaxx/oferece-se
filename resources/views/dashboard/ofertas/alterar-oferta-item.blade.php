@@ -12,7 +12,7 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col">
-                    <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/item/adicionar/{{$ofertaItem[0]->OfertaId}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp;Novo</a>
+                    <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/item/adicionar/{{$ofertaItem->OfertaId}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp;Novo</a>
                 </div>
                 @if(!empty(Session::get('message')))
                     <div class="alert alert-success"> {{ Session::get('message') }}</div>
@@ -26,11 +26,11 @@
                 <div class="col-6">
                     <div class="form-group mb-3">
                         <label for="Item">Item</label>
-                        <input type="text" class="form-control" name="Item" value="{{ old('Item', $ofertaItem[0]->Item) }}">
+                        <input type="text" class="form-control" name="Item" value="{{ old('Item', $ofertaItem->Item) }}">
                     </div>
                     <div class="form-group mb-3">
                         <label for="TextoWhatsApp">Complemento do botão do WhatsApp</label>
-                        <input type="text" class="form-control" name="TextoWhatsApp" value="{{ old('TextoWhatsApp', $ofertaItem[0]->TextoWhatsApp) }}">
+                        <input type="text" class="form-control" name="TextoWhatsApp" value="{{ old('TextoWhatsApp', $ofertaItem->TextoWhatsApp) }}">
                     </div>
                 </div>
             </div>
@@ -38,9 +38,9 @@
 
         <div class="card-footer">
             <input type="hidden" name="UserId" value="{{ Auth::user()->id }}">
-            <input type="hidden" name="OfertaId" value="{{ $ofertaItem[0]->OfertaId }}">
+            <input type="hidden" name="OfertaId" value="{{ $ofertaItem->OfertaId }}">
             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;Salvar</button>
-            <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/detalhar/{{$id}}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
+            <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/detalhar/{{ $ofertaItem->OfertaId }}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
         </div>
     </div>
 </div>

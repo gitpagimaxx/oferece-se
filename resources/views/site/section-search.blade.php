@@ -1,4 +1,4 @@
-@if($perfil[0]->Buscador == 1)	
+@if($perfil->Buscador == 1)	
 	<div class="container-fluid text-bg-light">
 		<div class="container pt-4 pb-4">
             <div class="hstack gap-3">

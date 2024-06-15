@@ -14,14 +14,14 @@ use App\Models\Perfil;
 use App\Models\User;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Controllers\CommonController;
+use Illuminate\Support\Facades\Auth;
 
 class PerfilController extends Controller 
 {
     //use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public $errorMessage = 'Ocorreu um erro ao registrar';
-    public $commomController;
-
+    public $message = 'Ocorreu um erro';
+    public $typeMessage = 'danger';
     /**
      * Create a new controller instance.
      *
@@ -30,7 +30,6 @@ class PerfilController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $commomController = new CommonController;
     }
 
     /**
@@ -41,8 +40,8 @@ class PerfilController extends Controller
     public function index() 
     {
         try {
-            
-            (new CommonController)->registrarAcesso(auth()->user()->id);
+
+            (new CommonController)->registrarAcesso(auth()->user()->id); 
 
             $perfil = $this->perfil(auth()->user()->id);
 
@@ -73,88 +72,57 @@ class PerfilController extends Controller
                 if (!file_exists($destinationPath)) 
                     mkdir($destinationPath, 0777, true);
 
+                $destinationThumbPath = "images/thumb";
+                if (!file_exists($destinationThumbPath)) 
+                    mkdir($destinationThumbPath, 0777, true);
+
                 $image = $request->file('Logotipo');
                 $data['Logotipo'] = uniqid(date('HisYmd')).'.'.$image->extension();
                 $img = Image::make($image->path());
                 $img->resize(280, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($destinationPath.'/'.$data['Logotipo']);
+                $img->resize(30, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationThumbPath.'/'.$data['Logotipo']);
             }
 
             $response = Perfil::find($id)->update($data);
 
-            return redirect('/dashboard/perfil');
+            if ($response) {
+                $this->message = 'Perfil atualizado com sucesso';
+                $this->typeMessage = 'success';
+            }
+            
+            return redirect('/dashboard/perfil')->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function detalharOfertaView($id) 
+    public function perfil($userId)
     {
         try {
-            $whereOferta = [ ['Status', '=', '1'], ['id', '=', $id] ];
-            $oferta = DB::table('oferta')
-            ->select('id', 'Titulo', 'Descricao', 'Validade', 'created_at')
-            ->where($whereOferta)->get();
-
-            $whereOfertaItem = [ ['Status', '=', '1'], ['OfertaId', '=', $id] ];
-            $ofertaItem = DB::table('oferta_item')
-            ->select('OfertaId', 'Item', 'Valor', 'TextoWhatsApp')
-            ->where($whereOfertaItem)->get();
-
-            return view('dashboard.ofertas.detalhar-oferta', compact('oferta', 'ofertaItem'));
-
+            return DB::table('perfil')
+                ->select('id', 'Nome', 'NomeUsuario', 'Logotipo', 'Telefone', 'WhatsApp', 
+                    'Localizacao', 'LinkMaps', 'HorarioAtendimento', 
+                    'Buscador', 'Delivery', 'Avaliacoes')
+                ->where([ ['Status', '=', '1'], ['UserId', '=', $userId] ])->first();
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function criarOfertaView() 
+    public function perfilPorNomeUsuario($nomeUsuario)
     {
         try {
-            return view('dashboard.ofertas.criar-oferta');
-
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    function perfil($userId)
-    {
-        try {
-            // retornar o perfil
-            $wherePerfil = [ ['Status', '=', '1'], ['UserId', '=', $userId] ];
-            $perfil = DB::table('perfil')
-            ->select('id', 'Nome', 'NomeUsuario', 'Logotipo', 'Telefone', 'WhatsApp', 
-                'Localizacao', 'LinkMaps', 'HorarioAtendimento', 
-                'Buscador', 'Delivery', 'Avaliacoes')
-            ->where($wherePerfil)->get();
-
-            return $perfil;
+            return DB::table('perfil')
+                ->select('id', 'Nome', 'NomeUsuario', 'Logotipo', 'Telefone', 'WhatsApp', 
+                    'Localizacao', 'LinkMaps', 'HorarioAtendimento', 
+                    'Buscador', 'Delivery', 'Avaliacoes')
+                ->where([ ['Status', '=', '1'], ['NomeUsuario', '=', $nomeUsuario] ])->first();
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 }
-
-/* 
-'Nome',
-'NomeUsuario',
-'Logotipo',
-'Telefone',
-, 'WhatsApp',
-, 'Localizacao',
-, 'LinkMaps',
-, 'HorarioAtendimento',
-, 'Buscador',
- */

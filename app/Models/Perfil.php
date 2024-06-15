@@ -18,6 +18,7 @@ class Perfil extends Model
         'Localizacao',
         'LinkMaps',
         'HorarioAtendimento',
+        'Logotipo',
         'Buscador',
         'Delivery',
         'Avaliacoes',

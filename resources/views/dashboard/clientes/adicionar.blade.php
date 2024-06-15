@@ -11,53 +11,43 @@
             <b>Adicionar Cliente</b>
         </div>
         <div class="card-body">
-            <div class="row mb-3">
-
-                @if(!empty(Session::get('message')))
-                    <div class="alert alert-success"> {{ Session::get('message') }}</div>
-                @endif
-                @if(!empty(Session::get('error')))
-                    <div class="alert alert-danger"> {{ Session::get('error') }}</div>
-                @endif
-        
-            </div>
             <div class="row">
                 <div class="col-6">
                 <div class="form-group mb-3">
                         <label for="Nome">Nome</label>
-                        <input type="text" class="form-control" name="Nome">
+                        <input type="text" class="form-control" name="Nome" required>
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3">
                         <label for="Telefone">Telefone</label>
-                        <input type="text" class="form-control" name="Telefone">
+                        <input type="text" class="form-control col-4" name="Telefone" id="Telefone" required>
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3">
                         <label for="CEP">CEP</label>
-                        <input type="text" class="form-control" name="CEP">
+                        <input type="text" class="form-control col-4" name="CEP" id="CEP" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="Endereco">Endereço</label>
-                        <input type="text" class="form-control" name="Endereco">
+                        <input type="text" class="form-control" name="Endereco" id="Endereco">
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3">
                         <label for="Numero">Número</label>
-                        <input type="text" class="form-control" name="Numero">
+                        <input type="text" class="form-control col-4" name="Numero" id="Numero">
                     </div>
                     <div class="form-group mb-3">
                         <label for="Complemento">Complemento</label>
-                        <input type="text" class="form-control" name="Complemento">
+                        <input type="text" class="form-control" name="Complemento" id="Complemento">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3">
                         <label for="Bairro">Bairro</label>
-                        <input type="text" class="form-control" name="Bairro">
+                        <input type="text" class="form-control col-6" name="Bairro" id="Bairro">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3">
                         <label for="Cidade">Cidade</label>
-                        <input type="text" class="form-control" name="Cidade">
+                        <input type="text" class="form-control col-6" name="Cidade" id="Cidade">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3">
                         <label for="Estado">Estado</label>
-                        <input type="text" class="form-control" name="Estado">
+                        <input type="text" class="form-control col-2" name="Estado" id="Estado">
                     </div>
                     <div class="form-group mb-3">
                         <label for="Referencia">Ponto de Referência</label>

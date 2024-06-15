@@ -16,13 +16,13 @@
             <div class="row mb-3">
                 <div class="col">
                     <h1 class="font-semibold text-xl text-gray-800 leading-tight mb-3">
-                        <b>Título:</b> {{ $oferta[0]->Titulo }}
+                        <b>{{ $oferta->Titulo }}</b>
                     </h1>
-                    <p><b>Detalhes:</b> {{ $oferta[0]->Descricao }}</p>
-                    <p><b>Validade:</b> {{ date('d/m/Y', strtotime($oferta[0]->Validade)) }}</p>
+                    <p><b>Detalhes:</b> {{ $oferta->Descricao }}</p>
+                    <p><b>Validade:</b> {{ date('d/m/Y', strtotime($oferta->Validade)) }}</p>
                     <div class="alert alert-success mt-3" role="alert">
-                        <a href="{{getenv('APP_URL') . '/ofertas/' . Str::slug($perfil[0]->NomeUsuario, '-') . '/' . $id }}" target="_blank">{{getenv('APP_URL') . '/ofertas/' . Str::slug($perfil[0]->NomeUsuario, '-') . '/' . $id }}</a>
-                        <button onclick="copyFunction('{{getenv('APP_URL') . '/ofertas/' . Str::slug($perfil[0]->NomeUsuario, '-') . '/' . $id }}')" class="btn btn-sm btn-info text-white" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar Link"><i class="fas fa-copy"></i></button>
+                        Link da Oferta: <a href="{{ url(ENV('APP_URL')) . '/ofertas/' . Str::slug($perfil->NomeUsuario, '-') . '/' . $id }}" target="_blank">{{ url(ENV('APP_URL')) . '/ofertas/' . Str::slug($perfil->NomeUsuario, '-') . '/' . $id }}</a>
+                        <button onclick="copyFunction('{{getenv('APP_URL') . '/ofertas/' . Str::slug($perfil->NomeUsuario, '-') . '/' . $id }}')" class="btn btn-sm btn-info text-white" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar Link"><i class="fas fa-copy"></i></button>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,6 @@
                     <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Título</th>
                             <th scope="col">Criado em</th>
                             <th scope="col">Ações</th>
@@ -49,8 +48,7 @@
                     <tbody>
                     @foreach ($ofertaItem ?? '' as $item)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>{{ $item->Item }}</td>
+                            <td><a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/item/alterar/{{ $item->id }}">{{ $item->Item }}</a></td>
                             <td style="width:180px;">{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
                             <td style="width:130px;">
                                 <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/item/alterar/{{ $item->id }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Alterar Item"><i class="fas fa-edit"></i></a>

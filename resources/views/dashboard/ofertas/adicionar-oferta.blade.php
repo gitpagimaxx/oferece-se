@@ -19,9 +19,9 @@
                         <label for="Descricao">Descrição</label>
                         <textarea name="Descricao" rows="5" class="form-control"></textarea>
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3>
                         <label for="Validade">Validade</label>
-                        <input type="date" class="form-control" name="Validade">
+                        <input type="date" class="form-control col-3"" name="Validade">
                     </div>
                 </div>
 

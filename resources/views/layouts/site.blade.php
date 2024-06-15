@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<base href="{{ url(ENV('APP_URL')) }}/">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<title>{{$perfil[0]->Nome}}</title>
+		<title>{{$perfil->Nome}}</title>
 
 		<meta name="author" content="PAGIMAXX">
 		<meta name="robots" content="index follow">
@@ -21,10 +21,10 @@
 
 		<!-- fav icon
 		==================================================================== -->
-		<link rel="icon" href="/assets/images/favicon/favicon-32x32.png" sizes="32x32" />
-		<link rel="icon" href="/assets/images/favicon/favicon-192x192.png" sizes="192x192" />
-		<link rel="apple-touch-icon" href="/assets/images/favicon/favicon-180x180.png" />
-		<meta name="msapplication-TileImage" content="/assets/images/favicon/favicon-270x270.png" />
+		<link rel="icon" href="{{ url(ENV('APP_URL')) }}/images/thumb/{{$perfil->Logotipo}}" sizes="32x32" />
+		<link rel="icon" href="{{ url(ENV('APP_URL')) }}/images/avatars/{{$perfil->Logotipo}}" sizes="192x192" />
+		<link rel="apple-touch-icon" href="{{ url(ENV('APP_URL')) }}/images/avatars/{{$perfil->Logotipo}}" />
+		<meta name="msapplication-TileImage" content="{{ url(ENV('APP_URL')) }}/images/avatars/{{$perfil->Logotipo}}" />
 
 		<!-- Google Fonts
 		==================================================================== -->

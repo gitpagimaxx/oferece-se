@@ -7,25 +7,23 @@
             <b>Clientes</b>
         </div>
         <div class="card-body">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <a href="{{ url(ENV('APP_URL')) }}/dashboard/clientes/adicionar" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp;Novo</a>
                 </div>
             </div>
-            <div class="row mb-3">
-                @if(!empty(Session::get('message')))
-                    <div class="alert alert-success"> {{ Session::get('message') }}</div>
-                @endif
-                @if(!empty(Session::get('error')))
-                    <div class="alert alert-danger"> {{ Session::get('error') }}</div>
-                @endif
-        
+            <div class="row">
+                <div class="col">
+                    @if(!empty(Session::get('message')))
+                        <div class="alert alert-{{ Session::get('typeMessage') }} mb-3"> {{ Session::get('message') }}</div>
+                    @endif
+                </div>
             </div>
             <div class="row">
                 <div class="col">
                     <form action="{{ url(ENV('APP_URL')) }}/dashboard/clientes" method="get" class="row g-3">
                         <div class="col-11">
-                            <input type="text" class="form-control" name="buscar" id="buscar" placeholder="Buscar...">
+                            <input type="text" class="form-control" name="buscar" id="buscar" placeholder="Buscar..." value={{$palavra ?? ''}}>
                         </div>
                         <div class="col-1">
                             <button type="submit" class="btn btn-outline-primary mb-3">Buscar</button>
@@ -47,7 +45,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">Data</th>
@@ -57,10 +54,9 @@
                     <tbody>
                     @foreach ($clientes ?? '' as $item)
                         <tr>
-                            <th scope="row" style="width:50px;">{{ $item->id }}</th>
-                            <td>{{ $item->Nome }}</td>
-                            <td style="width:130px;">{{ $item->Telefone }}</td>
-                            <td style="width:180px;">{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
+                            <td><a href="{{ url(ENV('APP_URL')) }}/dashboard/clientes/detalhar/{{ $item->id }}">{{ $item->Nome }}</a></td>
+                            <td style="width:180px;">{{ $item->Telefone }}</td>
+                            <td style="width:150px;">{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
                             <td style="width:130px;">
                                 <a href="{{ url(ENV('APP_URL')) }}/dashboard/clientes/detalhar/{{ $item->id }}" class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Detalhar"><i class="fas fa-info-circle"></i></a>&nbsp;
                             </td>
@@ -77,7 +73,7 @@
             </div>
         </div>
         <div class="card-footer">
-            Cliente(s) <b>{{$qtdeRegistros}}</b> encontrado(s)
+           <b>{{$qtdeRegistros}}</b> cliente(s) encontrado(s)
         </div>
     </div>
 </div>

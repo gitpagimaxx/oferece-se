@@ -5,9 +5,9 @@
 <div class="container-fluid">
     <div class="container">
         <div class="row text-white">
-            <div class="col">
+            <div class="col text-center">
                 <h2>Avaliação</h2>
-                <p>Ela é muito importante para sempre melhorarmos nosso atendimento</p>
+                <p>A avaliação é essencial para aprimorar continuamente nosso atendimento e oferecer uma experiência cada vez melhor aos nossos clientes.</p>
             </div>
         </div>
         <div class="row">
@@ -23,7 +23,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" name="telefone">
+                            <input type="tel" class="form-control" name="telefone" id="Telefone">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Como foi o atendimento?</label>
@@ -37,7 +37,7 @@
                             <label for="observacao" class="form-label">Gostaria de fazer uma observação?</label>
                             <textarea class="form-control" name="observacao" rows="3"></textarea>
                         </div>
-                        <input type="hidden" name="username" value="{{$perfil[0]->NomeUsuario}}">
+                        <input type="hidden" name="username" value="{{$perfil->NomeUsuario}}">
                         <input type="hidden" name="vendaid" value="1">
                         <button type="submit" class="btn btn-primary btn-lg">Enviar &nbsp;<i class="fas fa-paper-plane"></i></button>
                     </form>

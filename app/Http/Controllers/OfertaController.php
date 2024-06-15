@@ -17,8 +17,6 @@ use App\Http\Controllers\CommonController;
 
 class OfertaController extends Controller
 {
-    //use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
     public $errorMessage = 'Ocorreu um erro ao registrar';
 
     /**
@@ -39,21 +37,28 @@ class OfertaController extends Controller
     public function index() 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
             $perfil = (new CommonController)->perfil(auth()->user()->id);
-            
-            $whereOferta = [ ['Status', '=', '1'], ['UserId', '=', auth()->user()->id] ];
-            $ofertas = DB::table('oferta')
-            ->select('id', 'Titulo', 'Descricao', 'Validade', 'created_at')
-            ->where($whereOferta)
-            ->paginate(10); 
 
+            $palavra = Request('buscar') ? Request('buscar') : '';
+            $where = 'Status = 1 AND UserId = '. auth()->user()->id;
+            if (Request('buscar') != '')
+                $where = $where . " AND (Titulo LIKE '%".$palavra."%' OR Descricao LIKE '%".$palavra."%')"; 
+                
+            $ofertas = DB::table('oferta')
+                ->select('id', 'Titulo', 'Descricao', 'Validade', 'created_at')
+                ->whereRaw($where)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+
+            foreach ($ofertas as $oferta) {
+                $oferta->qtdeItens = OfertaItem::where('OfertaId', $oferta->id)->count();
+            }
+            
             $qtdeRegistros = $ofertas->count();
 
-            return view('dashboard.ofertas.index', compact('ofertas', 'qtdeRegistros', 'perfil'));
+            return view('dashboard.ofertas.index', compact('ofertas', 'qtdeRegistros', 'perfil', 'palavra'));
 
         } catch (\Throwable $th) {
             throw $th;
@@ -72,7 +77,7 @@ class OfertaController extends Controller
             // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
-            $perfil = (new CommonController)->perfil(auth()->user()->id);
+            $perfil = (new PerfilController)->perfil(auth()->user()->id);
 
             $oferta = $this->oferta($id);
             $ofertaItem = $this->ofertaItem($id);
@@ -111,11 +116,9 @@ class OfertaController extends Controller
     public function adicionarOferta(Request $request) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
-            $entity = $request->all(); //dd($entity);
+            $entity = $request->all();
             $response = Oferta::create($entity); 
             return redirect('/dashboard/ofertas/detalhar/'.$response->id);
 
@@ -132,8 +135,6 @@ class OfertaController extends Controller
     public function alterarOfertaView($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
             $oferta = $this->oferta($id);
@@ -152,11 +153,9 @@ class OfertaController extends Controller
     public function alterarOferta(Request $request, $id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
-            $entity = $request->all(); //dd($entity);
+            $entity = $request->all();
             $response = Oferta::find($id)->update($entity);
 
             return redirect('/dashboard/ofertas/detalhar/'.$id);
@@ -174,8 +173,6 @@ class OfertaController extends Controller
     public function excluirOfertaView($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
             $oferta = $this->oferta($id);
@@ -195,8 +192,6 @@ class OfertaController extends Controller
     public function excluirOferta($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
             $entity = Oferta::find($id)->update(array('Status' => false)); 
@@ -216,8 +211,6 @@ class OfertaController extends Controller
     public function adicionarOfertaItemView($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
             return view('dashboard.ofertas.adicionar-oferta-item', compact('id'));
@@ -235,8 +228,6 @@ class OfertaController extends Controller
     public function adicionarOfertaItem(Request $request) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
             $entity = $request->all();
@@ -257,8 +248,6 @@ class OfertaController extends Controller
     public function alterarOfertaItemView($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
             $ofertaItem = $this->ofertaItemPorId($id);
@@ -278,8 +267,6 @@ class OfertaController extends Controller
     public function alterarOfertaItem(Request $request, $id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
             $entity = $request->all(); //dd($entity);
@@ -300,8 +287,6 @@ class OfertaController extends Controller
     public function excluirOfertaItemView($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
             $ofertaItem = $this->ofertaItemPorId($id);
@@ -320,8 +305,6 @@ class OfertaController extends Controller
     public function excluirOfertaItem($id) 
     {
         try {
-
-            // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
             $entity = OfertaItem::find($id);
@@ -337,14 +320,9 @@ class OfertaController extends Controller
     public function oferta($id) 
     {
         try {
-
-            $whereOferta = [ ['Status', '=', '1'], ['id', '=', $id] ];
-            $oferta = DB::table('oferta')
-            ->select('id', 'Titulo', 'Descricao', 'Validade', 'created_at')
-            ->where($whereOferta)->get();
-
-            return $oferta;
-
+            return DB::table('oferta')
+                ->select('id', 'Titulo', 'Descricao', 'Validade', 'created_at')
+                ->where([ ['Status', '=', '1'], ['id', '=', $id] ])->first();
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -353,16 +331,11 @@ class OfertaController extends Controller
     public function ofertaItem($id) 
     {
         try {
-
-            $whereOfertaItem = [ ['Status', '=', '1'], ['OfertaId', '=', $id] ];
-            $ofertaItem = DB::table('oferta_item')
-            ->select('id', 'OfertaId', 'Item', 'Valor', 'TextoWhatsApp', 'created_at')
-            ->where($whereOfertaItem)->get();
-
             return DB::table('oferta_item')
-            ->select('id', 'OfertaId', 'Item', 'Valor', 'TextoWhatsApp', 'created_at')
-            ->where($whereOfertaItem)->get();
-
+                ->select('id', 'OfertaId', 'Item', 'Valor', 'TextoWhatsApp', 'created_at')
+                ->where([ ['Status', '=', '1'], ['OfertaId', '=', $id] ])
+                ->orderBy('created_at', 'desc')
+                ->get();
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -371,10 +344,9 @@ class OfertaController extends Controller
     public function ofertaItemPorId($id) 
     {
         try {
-            
             return DB::table('oferta_item')
             ->select('id', 'OfertaId', 'Item', 'Valor', 'TextoWhatsApp', 'created_at')
-            ->where(['Status', '=', '1'], ['id', '=', $id] )->get();
+            ->where([ ['Status', '=', '1'], ['id', '=', $id] ])->first(); 
 
         } catch (\Throwable $th) {
             throw $th;

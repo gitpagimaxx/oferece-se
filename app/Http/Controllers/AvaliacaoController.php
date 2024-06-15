@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Avaliacao;
+use App\Models\Perfil;
+use App\Http\Controllers\PerfilController;
 
 class AvaliacaoController extends Controller
 {
@@ -40,17 +42,22 @@ class AvaliacaoController extends Controller
             // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
-            $perfil = $this->obterDadosPerfil(auth()->user()->id);
+            $perfil = (new PerfilController)->perfil(auth()->user()->id);
 
-            $where = [ ['Status', '=', '1'], ['PerfilId', '=', $perfil[0]->id] ];
+            $palavra = Request('buscar') ? Request('buscar') : '';
+            $where = 'Status = 1 AND PerfilId = '. $perfil->id;
+            if (Request('buscar') != '')
+                $where = $where . " AND (Nome LIKE '%".$palavra."%' OR Telefone LIKE '%".$palavra."%')"; 
+
             $avaliacoes = DB::table('avaliacao')
-            ->select('id', 'Nome', 'Telefone', 'Atendimento', 'Entrega', 'Publicar', 'created_at')
-            ->where($where)
-            ->paginate(10); 
+                ->select('id', 'Nome', 'Telefone', 'Atendimento', 'Entrega', 'Publicar', 'created_at')
+                ->whereRaw($where)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10); 
 
             $qtdeRegistros = $avaliacoes->count();
 
-            return view('dashboard.avaliacao.index', compact('avaliacoes', 'qtdeRegistros'));
+            return view('dashboard.avaliacao.index', compact('avaliacoes', 'qtdeRegistros', 'perfil'));
 
         } catch (\Throwable $th) {
             throw $th;
@@ -72,7 +79,7 @@ class AvaliacaoController extends Controller
             $where = [ ['Status', '=', '1'], ['id', '=', $id] ];
             $avaliacao = DB::table('avaliacao')
             ->select('id', 'Nome', 'Telefone', 'Atendimento', 'Observacao', 'Entrega', 'Publicar', 'created_at')
-            ->where($where)->get(); 
+            ->where($where)->first(); 
 
             return view('dashboard.avaliacao.detalhar', compact('avaliacao', 'id'));
 
@@ -93,22 +100,9 @@ class AvaliacaoController extends Controller
             // registrar acesso
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
-            $entity = Avaliacao::find($id)->update($request->all()); //dd($entity);
+            $entity = Avaliacao::find($id)->update($request->all());
             
             return redirect('/dashboard/avaliacao/detalhar/'.$id);
-
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function obterDadosPerfil($userId) 
-    {
-        try {
-            $where = [ ['Status', '=', '1'], ['UserId', '=', $userId] ];
-            return DB::table('perfil')
-            ->select('id', 'Nome')
-            ->where($where)->get();
 
         } catch (\Throwable $th) {
             throw $th;
@@ -122,6 +116,7 @@ class AvaliacaoController extends Controller
             
             $registros = DB::table('avaliacao')
             ->select('id', 'Nome', 'Telefone', 'Atendimento', 'Observacao', 'Entrega', 'Publicar', 'created_at')
+            ->orderBy('created_at', 'desc')
             ->where($where)->get(); 
 
             return view('dashboard.avaliacao.detalhar', compact('registros'));

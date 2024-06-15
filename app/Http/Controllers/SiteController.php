@@ -15,6 +15,7 @@ use App\Models\Oferta;
 use App\Models\OfertaItem;
 use App\Models\Avaliacao;
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\PerfilController;
 
 class SiteController extends Controller
 {
@@ -46,8 +47,6 @@ class SiteController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-                //Pesquisa::create(['Palavra'=>Request('buscar'), 'Tela'=>'conhecimento']);
-
             } else {
 
                 $registros = DB::table('categoria')
@@ -60,12 +59,10 @@ class SiteController extends Controller
 
             Paginator::defaultView('pagination::bootstrap-4');
 
-            //dd($registros);
-
             return view('dashboard.categorias.index', compact('registros'));
 
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 
@@ -74,28 +71,28 @@ class SiteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function oferta($username, $idoferta) 
+    public function oferta($username, $idOferta) 
     {
         try {
 
-             // registrar acesso
-             (new CommonController)->registrarAcesso(0);
+            // registrar acesso
+            (new CommonController)->registrarAcesso(0);
 
-            $where = [ ['Status', '=', '1'], ['id', '=', $idoferta] ];
+            $where = [ ['Status', '=', '1'], ['id', '=', $idOferta] ];
             $oferta = DB::table('oferta')
-            ->select('Titulo', 'Descricao', 'Validade')
-            ->where($where)->get();
+                ->select('Titulo', 'Descricao', 'Validade')
+                ->where($where)->get();
 
-            $whereOfertaItem = [ ['Status', '=', '1'], ['OfertaId', '=', $idoferta] ];
+            $whereOfertaItem = [ ['Status', '=', '1'], ['OfertaId', '=', $idOferta] ];
             $ofertaItem = DB::table('oferta_item')
-            ->select('OfertaId', 'Item', 'Valor', 'TextoWhatsApp')
-            ->where($whereOfertaItem)->get();
+                ->select('OfertaId', 'Item', 'Valor', 'TextoWhatsApp')
+                ->where($whereOfertaItem)->get();
 
-            $perfil = (new CommonController)->perfilPorNome($username);
+            $perfil = $this->perfil($username);
 
-            //dd($perfil);
+            $avaliacoes = $this->avaliacoes($perfil->id);
 
-            return view('site.ofertas', compact('oferta', 'ofertaItem', 'perfil'));
+            return view('site.ofertas', compact('oferta', 'ofertaItem', 'perfil', 'avaliacoes'));
 
         } catch (\Throwable $th) {
             throw $th;
@@ -110,9 +107,8 @@ class SiteController extends Controller
     {
         try {
             $perfil = $this->perfil($username);
-
-            //return view("site.avaliacao", compact('perfil'));
-            return view("site.avaliar", compact('perfil'));
+            $avaliacoes = $this->avaliacoes($perfil->id);
+            return view("site.avaliar", compact('perfil', 'avaliacoes'));
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -136,6 +132,7 @@ class SiteController extends Controller
             $dadosAvaliacao['Atendimento'] = $request->atendimento;
             $dadosAvaliacao['Entrega'] = $request->entrega;
             $dadosAvaliacao['Observacao'] = $request->observacao;
+            $dadosAvaliacao['Publicar'] = 0;
             $response = Avaliacao::create($dadosAvaliacao);
 
             return redirect('/'.$request->username.'/obrigado')->with(['perfil'=>$perfil ?? '']);
@@ -152,42 +149,30 @@ class SiteController extends Controller
     {
         try {
             $perfil = $this->perfil($username);
+            $avaliacoes = Avaliacao::where([ ['PerfilId', $perfil->id], ['Status', 1 ], [ 'Publicar', '1' ]  ])->get();
 
-            return view("site.avaliacao-obrigado", compact('perfil'));
+            return view("site.avaliacao-obrigado", compact('perfil', 'avaliacoes'));
 
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    function perfil($username)
+    public function perfil($username)
     {
         try {
-            // retornar o perfil
-            $wherePerfil = [ ['Status', '=', '1'], ['NomeUsuario', '=', $username] ];
-            $perfil = DB::table('perfil')
-            ->select('Nome', 'NomeUsuario', 'Logotipo', 'Telefone', 'WhatsApp', 
-                'Localizacao', 'LinkMaps', 'HorarioAtendimento', 
-                'Buscador', 'Delivery', 'Avaliacoes')
-            ->where($wherePerfil)->get();
+            return (new PerfilController)->perfilPorNomeUsuario($username);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
-            return $perfil;
+    public function avaliacoes($perfilId)
+    {
+        try {
+            return Avaliacao::where([ ['PerfilId', $perfilId], ['Status', 1 ], [ 'Publicar', '1' ]  ])->get();
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 }
-
-
-
-/* 
-'Nome',
-'NomeUsuario',
-'Logotipo',
-'Telefone',
-, 'WhatsApp',
-, 'Localizacao',
-, 'LinkMaps',
-, 'HorarioAtendimento',
-, 'Buscador',
- */

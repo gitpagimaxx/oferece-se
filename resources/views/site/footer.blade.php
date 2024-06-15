@@ -21,13 +21,13 @@
 
 								<div class="main-block-content icon-block-content">
 									<p>
-									{{ $perfil[0]->HorarioAtendimento }}
+									{{ $perfil->HorarioAtendimento }}
 									</p>
 								</div>
 
 								<div class="main-block-footer icon-block-footer">
 									<p>
-									<a href="https://wa.me/55{{$perfil[0]->WhatsApp}}?text=Estou%20interessado%20em%20seus%20produtos" class="btn btn-info mt-2" target="_blank">
+									<a href="https://wa.me/55{{$perfil->WhatsApp}}?text=Estou%20interessado%20em%20seus%20produtos" class="btn btn-info mt-2" target="_blank">
 										Tire sua dúvida aqui
 									</a>
 									</p>
@@ -62,15 +62,15 @@
 
 								<div class="main-block-content icon-block-content">
 									<p>
-										Telefone: <a href="tel:+55{{$perfil[0]->Telefone}}">{{ preg_replace('~.*(\d{2})[^\d]{0,9}(\d{5})[^\d]{0,9}(\d{4}).*~', '($1) $2-$3', $perfil[0]->Telefone)  }}</a>
+										Telefone: <a href="tel:+55{{$perfil->Telefone}}">{{ preg_replace('~.*(\d{2})[^\d]{0,9}(\d{5})[^\d]{0,9}(\d{4}).*~', '($1) $2-$3', $perfil->Telefone)  }}</a>
 										<br>
-										WhatsApp: <a href="https://wa.me/55{{$perfil[0]->WhatsApp}}?text=Estou%20interessado%20em%20seus%20produtos" target="_blank">{{ preg_replace('~.*(\d{2})[^\d]{0,9}(\d{5})[^\d]{0,9}(\d{4}).*~', '($1) $2-$3', $perfil[0]->WhatsApp)  }}</a>
+										WhatsApp: <a href="https://wa.me/55{{$perfil->WhatsApp}}?text=Estou%20interessado%20em%20seus%20produtos" target="_blank">{{ preg_replace('~.*(\d{2})[^\d]{0,9}(\d{5})[^\d]{0,9}(\d{4}).*~', '($1) $2-$3', $perfil->WhatsApp)  }}</a>
 									</p>
 								</div>
 
 								<div class="main-block-footer icon-block-footer">
 									<p>
-									<a href="https://wa.me/55{{$perfil[0]->WhatsApp}}?text=Estou%20interessado%20em%20seus%20produtos" class="btn btn-success btn-whatsapp mt-2" target="_blank">Me chame no WhatsApp</a>
+									<a href="https://wa.me/55{{$perfil->WhatsApp}}?text=Estou%20interessado%20em%20seus%20produtos" class="btn btn-success btn-whatsapp mt-2" target="_blank">Me chame no WhatsApp</a>
 									</p>
 								</div>
 
@@ -103,13 +103,13 @@
 
 								<div class="main-block-content icon-block-content">
 									<p>
-										{!! $perfil[0]->Localizacao !!}
+										{!! $perfil->Localizacao !!}
 									</p>
 								</div>
 
 								<div class="main-block-footer icon-block-footer">
 									<p>
-									<a href="{{$perfil[0]->LinkMaps}}" class="btn btn-primary mt-2" target="_blank">Ver no Mapa</a>
+									<a href="{{$perfil->LinkMaps}}" class="btn btn-primary mt-2" target="_blank">Ver no Mapa</a>
 									</p>
 								</div>
 
@@ -135,7 +135,7 @@
 							<div class="footer-section-copyright-content light-color text-center">
 								<p>&copy; {{ date('Y') }} Site by  
 									<a href="https://pagimaxx.com/ofertas" target="_blank">
-										<b>PAGIMAXX</b> Systems
+										<b>PAGIMAX</b> Soluções
 									</a>
 								</p>
 							</div>
