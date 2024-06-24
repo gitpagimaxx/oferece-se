@@ -17,7 +17,8 @@ use App\Http\Controllers\CommonController;
 
 class OfertaController extends Controller
 {
-    public $errorMessage = 'Ocorreu um erro ao registrar';
+    public $message = 'Ocorreu um erro';
+    public $typeMessage = 'danger';
 
     /**
      * Create a new controller instance.
@@ -52,11 +53,14 @@ class OfertaController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            foreach ($ofertas as $oferta) {
-                $oferta->qtdeItens = OfertaItem::where('OfertaId', $oferta->id)->count();
+            if ($ofertas->count() > 0)
+            {
+                foreach ($ofertas as $oferta) {
+                    $oferta->qtdeItens = OfertaItem::where('OfertaId', $oferta->id)->count();
+                }
             }
             
-            $qtdeRegistros = $ofertas->count();
+            $qtdeRegistros = $ofertas->count() ?? 0;
 
             return view('dashboard.ofertas.index', compact('ofertas', 'qtdeRegistros', 'perfil', 'palavra'));
 
@@ -79,8 +83,8 @@ class OfertaController extends Controller
 
             $perfil = (new PerfilController)->perfil(auth()->user()->id);
 
-            $oferta = $this->oferta($id);
-            $ofertaItem = $this->ofertaItem($id);
+            $oferta = $this->obterOferta($id);
+            $ofertaItem = $this->obterOfertaItem($id);
 
             return view('dashboard.ofertas.detalhar-oferta', compact('oferta', 'ofertaItem', 'id', 'perfil'));
 
@@ -120,7 +124,13 @@ class OfertaController extends Controller
 
             $entity = $request->all();
             $response = Oferta::create($entity); 
-            return redirect('/dashboard/ofertas/detalhar/'.$response->id);
+
+            if ($response) {
+                $this->message = 'Perfil atualizado com sucesso';
+                $this->typeMessage = 'success';
+            }
+
+            return redirect('/dashboard/ofertas/detalhar/'.$response->id)->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
 
         } catch (\Throwable $th) {
             throw $th;
@@ -137,7 +147,7 @@ class OfertaController extends Controller
         try {
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
-            $oferta = $this->oferta($id);
+            $oferta = $this->obterOferta($id);
             return view('dashboard.ofertas.alterar-oferta', compact('id', 'oferta'));
 
         } catch (\Throwable $th) {
@@ -158,7 +168,12 @@ class OfertaController extends Controller
             $entity = $request->all();
             $response = Oferta::find($id)->update($entity);
 
-            return redirect('/dashboard/ofertas/detalhar/'.$id);
+            if ($response) {
+                $this->message = 'Oferta atualizada com sucesso';
+                $this->typeMessage = 'success';
+            }
+
+            return redirect('/dashboard/ofertas/detalhar/'.$id)->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
 
         } catch (\Throwable $th) {
             throw $th;
@@ -175,7 +190,7 @@ class OfertaController extends Controller
         try {
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
-            $oferta = $this->oferta($id);
+            $oferta = $this->obterOferta($id);
 
             return view('dashboard.ofertas.excluir-oferta', compact('id', 'oferta'));
 
@@ -195,6 +210,13 @@ class OfertaController extends Controller
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
             $entity = Oferta::find($id)->update(array('Status' => false)); 
+
+            if ($response) {
+                $this->message = 'Oferta excluída com sucesso';
+                $this->typeMessage = 'success';
+            }
+
+            return redirect('/dashboard/ofertas/detalhar/'.$id)->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
             
             return redirect('/dashboard/ofertas');
 
@@ -233,7 +255,12 @@ class OfertaController extends Controller
             $entity = $request->all();
             $response = OfertaItem::create($entity); 
             
-            return redirect('/dashboard/ofertas/detalhar/'.$response->OfertaId);
+            if ($response) {
+                $this->message = 'Item adicionado com sucesso';
+                $this->typeMessage = 'success';
+            }
+
+            return redirect('/dashboard/ofertas/detalhar/'.$response->OfertaId)->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
 
         } catch (\Throwable $th) {
             throw $th;
@@ -250,7 +277,7 @@ class OfertaController extends Controller
         try {
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
-            $ofertaItem = $this->ofertaItemPorId($id);
+            $ofertaItem = $this->obterOfertaItemPorId($id);
 
             return view('dashboard.ofertas.alterar-oferta-item', compact('id', 'ofertaItem'));
 
@@ -269,10 +296,15 @@ class OfertaController extends Controller
         try {
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
-            $entity = $request->all(); //dd($entity);
+            $entity = $request->all();
             $response = OfertaItem::find($id)->update($entity);
             
-            return redirect('/dashboard/ofertas/detalhar/'.$entity['OfertaId']);
+            if ($response) {
+                $this->message = 'Item da oferta atualizado com sucesso';
+                $this->typeMessage = 'success';
+            }
+
+            return redirect('/dashboard/ofertas/detalhar/'.$id)->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
 
         } catch (\Throwable $th) {
             throw $th;
@@ -289,7 +321,7 @@ class OfertaController extends Controller
         try {
             (new CommonController)->registrarAcesso(auth()->user()->id);
             
-            $ofertaItem = $this->ofertaItemPorId($id);
+            $ofertaItem = $this->obterOfertaItemPorId($id);
             return view('dashboard.ofertas.excluir-oferta-item', compact('id', 'ofertaItem'));
 
         } catch (\Throwable $th) {
@@ -307,17 +339,21 @@ class OfertaController extends Controller
         try {
             (new CommonController)->registrarAcesso(auth()->user()->id);
 
-            $entity = OfertaItem::find($id);
             $entity = OfertaItem::find($id)->update(array('Status' => false)); 
             
-            return redirect('/dashboard/ofertas/detalhar/'.$entity->OfertaId);
+            if ($response) {
+                $this->message = 'O Item da oferta foi excluído com sucesso';
+                $this->typeMessage = 'success';
+            }
+
+            return redirect('/dashboard/ofertas/detalhar/'.$id)->with(['message' => $this->message, 'typeMessage' => $this->typeMessage]);
 
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    public function oferta($id) 
+    public function obterOferta($id) 
     {
         try {
             return DB::table('oferta')
@@ -328,7 +364,7 @@ class OfertaController extends Controller
         }
     }
 
-    public function ofertaItem($id) 
+    public function obterOfertaItem($id) 
     {
         try {
             return DB::table('oferta_item')
@@ -341,7 +377,7 @@ class OfertaController extends Controller
         }
     }
 
-    public function ofertaItemPorId($id) 
+    public function obterOfertaItemPorId($id) 
     {
         try {
             return DB::table('oferta_item')

@@ -13,7 +13,7 @@
                 <div class="col-6">
                     <div class="form-group mb-3">
                         <label for="Titulo">Título</label>
-                        <input type="text" class="form-control" name="Titulo">
+                        <input type="text" class="form-control" name="Titulo" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="Descricao">Descrição</label>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group mb-3>
                         <label for="Validade">Validade</label>
-                        <input type="date" class="form-control col-3"" name="Validade">
+                        <input type="date" class="form-control col-3"" name="Validade" required>
                     </div>
                 </div>
 

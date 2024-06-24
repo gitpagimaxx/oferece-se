@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col">
                 <p>
-                    Deseja realmente excluir o item <b>{{$ofertaItem[0]->Item}}</b>?
+                    Deseja realmente excluir o item <b>{{$ofertaItem->Item}}</b>?
                 </p>    
                 </div>
             </div>
@@ -21,7 +21,7 @@
         <div class="card-footer">
             <input type="hidden" name="id" value="{{ $id }}">
             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;Confirmar</button>
-            <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/detalhar/{{$ofertaItem[0]->OfertaId}}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
+            <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/detalhar/{{$ofertaItem->OfertaId}}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
         </div>
     </div>
     </form>

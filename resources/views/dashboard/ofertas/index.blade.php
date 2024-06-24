@@ -14,9 +14,16 @@
             </div>
             <div class="row">
                 <div class="col">
+                    @if(!empty(Session::get('message')))
+                        <div class="alert alert-{{ Session::get('typeMessage') }} mb-3"> {{ Session::get('message') }}</div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <form action="{{ url(ENV('APP_URL')) }}/dashboard/ofertas" method="get" class="row g-3">
                         <div class="col-11">
-                            <input type="text" class="form-control" name="buscar" id="buscar" placeholder="Buscar..." value={{$palavra ?? ''}}>
+                            <input type="search" class="form-control" name="buscar" id="buscar" placeholder="Buscar..." value={{$palavra ?? ''}}>
                         </div>
                         <div class="col-1">
                             <button type="submit" class="btn btn-outline-primary mb-3">Buscar</button>
@@ -33,6 +40,14 @@
                 </div>
             </div>
             @endif
+
+            @if ($qtdeRegistros == 0)
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-danger mb-3">Nenhuma oferta encontrada</div>
+                </div>
+            </div>
+            @else
             <div class="row">
                 <div class="col">
                 <table class="table">
@@ -66,9 +81,10 @@
                     {{ $ofertas->links() }}
                 </div>
             </div>
+            @endif
         </div>
         <div class="card-footer">
-            <b>{{$qtdeRegistros}}</b> oferta(s) encontrado(s)
+            <b>{{ $qtdeRegistros ?? 0 }}</b> oferta(s) encontrado(s)
         </div>
     </div>
 </div>

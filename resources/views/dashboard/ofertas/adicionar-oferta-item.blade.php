@@ -14,11 +14,11 @@
                 <div class="col-6">
                     <div class="form-group mb-3">
                         <label for="Item">Item</label>
-                        <input type="text" class="form-control" name="Item">
+                        <input type="text" class="form-control" name="Item" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="TextoWhatsApp">Complemento do botão do WhatsApp</label>
-                        <input type="text" class="form-control" name="TextoWhatsApp">
+                        <input type="text" class="form-control" name="TextoWhatsApp" required>
                     </div>
                 </div>
             </div>

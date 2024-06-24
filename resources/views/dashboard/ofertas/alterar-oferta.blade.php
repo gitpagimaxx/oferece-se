@@ -20,15 +20,15 @@
                     <div class="col-6">
                         <div class="form-group mb-3">
                             <label for="Titulo">Título</label>
-                            <input type="text" class="form-control" name="Titulo" value="{{ old('Titulo', $oferta[0]->Titulo) }}">
+                            <input type="text" class="form-control" name="Titulo" value="{{ old('Titulo', $oferta->Titulo) }}" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="Descricao">Descrição</label>
-                            <textarea name="Descricao" rows="5" class="form-control">{{ old('Descricao', $oferta[0]->Descricao) }}</textarea>
+                            <textarea name="Descricao" rows="5" class="form-control">{{ old('Descricao', $oferta->Descricao) }}</textarea>
                         </div>
                         <div class="form-group mb-3>
                             <label for="Validade">Validade</label>
-                            <input type="date" class="form-control col-3" name="Validade" value="{{ old('Validade', \Carbon\Carbon::parse($oferta[0]->Validade)->format('Y-m-d')) }}">
+                            <input type="date" class="form-control col-3" name="Validade" value="{{ old('Validade', \Carbon\Carbon::parse($oferta->Validade)->format('Y-m-d')) }}" required>
                         </div>
                     </div>
                 </div>

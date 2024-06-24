@@ -13,24 +13,17 @@
             <div class="row mb-3">
                 <div class="col">
                     <a href="{{ url(ENV('APP_URL')) }}/dashboard/ofertas/item/adicionar/{{$ofertaItem->OfertaId}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp;Novo</a>
-                </div>
-                @if(!empty(Session::get('message')))
-                    <div class="alert alert-success"> {{ Session::get('message') }}</div>
-                @endif
-                @if(!empty(Session::get('error')))
-                    <div class="alert alert-danger"> {{ Session::get('error') }}</div>
-                @endif
-        
+                </div>        
             </div>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group mb-3">
                         <label for="Item">Item</label>
-                        <input type="text" class="form-control" name="Item" value="{{ old('Item', $ofertaItem->Item) }}">
+                        <input type="text" class="form-control" name="Item" value="{{ old('Item', $ofertaItem->Item) }}" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="TextoWhatsApp">Complemento do botão do WhatsApp</label>
-                        <input type="text" class="form-control" name="TextoWhatsApp" value="{{ old('TextoWhatsApp', $ofertaItem->TextoWhatsApp) }}">
+                        <input type="text" class="form-control" name="TextoWhatsApp" value="{{ old('TextoWhatsApp', $ofertaItem->TextoWhatsApp) }}" required>
                     </div>
                 </div>
             </div>
