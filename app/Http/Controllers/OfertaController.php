@@ -31,7 +31,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Listar as oferta. Também pode ser utilizado para buscar ofertas.
      *
      * @return \Illuminate\Http\Response
      */
@@ -70,7 +70,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Detalhar oferta por id.
      *
      * @return \Illuminate\Http\Response
      */
@@ -94,7 +94,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * View para criar oferta.
      *
      * @return \Illuminate\Http\Response
      */
@@ -138,8 +138,8 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
+     * View para alterar oferta.
+     * @param int  $id
      * @return \Illuminate\Http\Response
      */
     public function alterarOfertaView($id) 
@@ -156,7 +156,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Alterar oferta.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -181,8 +181,8 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
+     * View para excluir oferta.
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function excluirOfertaView($id) 
@@ -200,8 +200,8 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
+     * Excluir oferta.
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function excluirOferta($id) 
@@ -226,7 +226,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * View para adicionar item na oferta.
      *
      * @return \Illuminate\Http\Response
      */
@@ -243,7 +243,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Adicionar item na oferta.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -268,8 +268,8 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
+     * View para alterar item da oferta.
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function alterarOfertaItemView($id) 
@@ -287,8 +287,9 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
+     * Alterar item da oferta.
+     * @param  \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function alterarOfertaItem(Request $request, $id) 
@@ -312,8 +313,8 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
+     * View para excluir item da oferta.
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function excluirOfertaItemView($id) 
@@ -330,8 +331,8 @@ class OfertaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
+     * Excluir item da oferta.
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function excluirOfertaItem($id) 
@@ -353,6 +354,9 @@ class OfertaController extends Controller
         }
     }
 
+    /**
+     * Obter oferta por id.
+     */
     public function obterOferta($id) 
     {
         try {
@@ -364,6 +368,9 @@ class OfertaController extends Controller
         }
     }
 
+    /**
+     * Obter itens da oferta por id da oferta.
+     */
     public function obterOfertaItem($id) 
     {
         try {
@@ -377,6 +384,9 @@ class OfertaController extends Controller
         }
     }
 
+    /**
+     * Obter item da oferta por id do item.
+     */
     public function obterOfertaItemPorId($id) 
     {
         try {
