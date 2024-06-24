@@ -31,7 +31,7 @@ class AvaliacaoController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Listar as avaliações e filtrar por palavra chave
      *
      * @return \Illuminate\Http\Response
      */
@@ -65,7 +65,7 @@ class AvaliacaoController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Detalhes da avaliação por id
      *
      * @return \Illuminate\Http\Response
      */
@@ -109,7 +109,10 @@ class AvaliacaoController extends Controller
         }
     }
 
-    public function avaliacao($id, $palavraChave)
+    /**
+     * Obter avaliação por id e palavra chave
+     */
+    public function obterAvaliacao($id)
     {
         try {
             $where = [ ['Status', '=', '1'], ['id', '=', $id] ];
